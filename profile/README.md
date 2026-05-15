@@ -1,57 +1,57 @@
-# Lux C++ 🔧
+# Lux C++
 
-**High-Performance C++ Libraries for Lux Network**
+High-performance C++ kernel and GPU acceleration for the Lux Network. The
+performance moat under the public Go reference implementations published at
+[github.com/luxfi](https://github.com/luxfi).
 
-Native C++ implementations for cryptography, FHE, and blockchain components with maximum performance.
-
-## 🏗️ Architecture
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Lux C++ Stack                              │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┬─────────────┬─────────────┬─────────────┐      │
-│  │   liblux    │  libluxfhe  │ libluxcrypto│  luxvm      │      │
-│  │   (Core)    │    (FHE)    │   (Crypto)  │   (VM)      │      │
-│  └─────────────┴─────────────┴─────────────┴─────────────┘      │
-│                              │                                   │
-│  ┌───────────────────────────────────────────────────────┐      │
-│  │              LLVM-based Compilation                    │      │
-│  │         Python • Rust • Go • Ruby • Elixir            │      │
-│  └───────────────────────────────────────────────────────┘      │
-│                              │                                   │
-│  ┌───────────────────────────────────────────────────────┐      │
-│  │           Hardware Acceleration                        │      │
-│  │      CUDA • ROCm • Metal • AVX-512 • NEON             │      │
-│  └───────────────────────────────────────────────────────┘      │
-└─────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                          Lux C++ Stack                           |
++------------------------------------------------------------------+
+|  +-----------+  +------------+  +-------------+  +----------+    |
+|  |  liblux   |  | libluxfhe  |  | libluxcrypt |  |  luxvm   |    |
+|  |  (Core)   |  |   (FHE)    |  |   (Crypto)  |  |   (VM)   |    |
+|  +-----------+  +------------+  +-------------+  +----------+    |
+|                              |                                   |
+|  +------------------------------------------------------------+  |
+|  |                LLVM-based Compilation                      |  |
+|  |        Python  Rust  Go  Ruby  Elixir bindings             |  |
+|  +------------------------------------------------------------+  |
+|                              |                                   |
+|  +------------------------------------------------------------+  |
+|  |             Hardware Acceleration                          |  |
+|  |     CUDA   ROCm   Metal   AVX-512   NEON   FPGA            |  |
+|  +------------------------------------------------------------+  |
++------------------------------------------------------------------+
 ```
 
-## 📦 Repositories
+## Repositories
 
 ### Core Libraries
-| Repository | Description | Status |
-|------------|-------------|--------|
-| [liblux](https://github.com/luxcpp/liblux) | Core Lux library | ✅ Stable |
-| [libluxfhe](https://github.com/luxcpp/libluxfhe) | FHE operations | ✅ Stable |
-| [libluxcrypto](https://github.com/luxcpp/libluxcrypto) | Cryptographic primitives | ✅ Stable |
-| [luxvm](https://github.com/luxcpp/luxvm) | Virtual machine | 🚧 Beta |
+| Repository | Description |
+|------------|-------------|
+| [liblux](https://github.com/luxcpp/liblux) | Core Lux library |
+| [libluxfhe](https://github.com/luxcpp/libluxfhe) | FHE operations |
+| [libluxcrypto](https://github.com/luxcpp/libluxcrypto) | Cryptographic primitives |
+| [luxvm](https://github.com/luxcpp/luxvm) | Virtual machine |
 
 ### Acceleration
-| Repository | Description | Status |
-|------------|-------------|--------|
-| [luxaccel](https://github.com/luxcpp/luxaccel) | GPU acceleration | ✅ Stable |
-| [luxntt](https://github.com/luxcpp/luxntt) | NTT implementations | ✅ Stable |
-| [luxfft](https://github.com/luxcpp/luxfft) | FFT implementations | ✅ Stable |
+| Repository | Description |
+|------------|-------------|
+| [luxaccel](https://github.com/luxcpp/luxaccel) | GPU acceleration |
+| [luxntt](https://github.com/luxcpp/luxntt) | NTT implementations |
+| [luxfft](https://github.com/luxcpp/luxfft) | FFT implementations |
 
 ### Bindings
-| Repository | Description | Status |
-|------------|-------------|--------|
-| [luxpy](https://github.com/luxcpp/luxpy) | Python bindings | ✅ Stable |
-| [luxrs](https://github.com/luxcpp/luxrs) | Rust bindings | ✅ Stable |
-| [luxgo](https://github.com/luxcpp/luxgo) | Go bindings (CGO) | ✅ Stable |
+| Repository | Description |
+|------------|-------------|
+| [luxpy](https://github.com/luxcpp/luxpy) | Python bindings |
+| [luxrs](https://github.com/luxcpp/luxrs) | Rust bindings |
+| [luxgo](https://github.com/luxcpp/luxgo) | Go bindings (CGO) |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Build from Source
 ```bash
@@ -94,25 +94,54 @@ auto result = ct + ctx->encrypt(8);
 std::cout << ctx->decrypt<uint64_t>(result);  // 50
 ```
 
-## 🔧 Build Requirements
+## Build Requirements
 
 - CMake 3.20+
 - C++20 compiler (GCC 12+, Clang 15+, MSVC 2022+)
 - Optional: CUDA 12+, ROCm 5+, Metal
 
-## 🔗 Related Organizations
+## IP and Licensing
+
+`luxcpp` is the C++ kernel and GPU acceleration org. It implements a mix
+of public reference primitives, patent-protected inventions, and
+production-grade closed-source kernels that constitute the Lux performance
+moat.
+
+The full Lux IP and licensing strategy lives at the canonical Lux org
+profile: [github.com/luxfi/.github/blob/main/profile/README.md](https://github.com/luxfi/.github/blob/main/profile/README.md).
+That document is the source of truth. The table below records the binding
+license declared in each `luxcpp` repository's `LICENSE` file.
+
+| Subdir | License | Tier |
+|--------|---------|------|
+| cevm | Apache-2.0 | Public |
+| crypto | Lux Ecosystem v1.2 | Patent-protected |
+| cuda | Proprietary | Private moat |
+| dex | BSD-3-Clause Ecosystem | Public |
+| evmc | Apache-2.0 | Public |
+| fhe | Lux Ecosystem v1.2 | Patent-protected |
+| gpu | BSD-3-Clause | Public |
+| grpc | Apache-2.0 | Public |
+| http | MIT (Drogon) | Public |
+| lattice | Lux Ecosystem v1.2 | Patent-protected |
+| session | MIT (libsession-util) | Public |
+| zap-cpp-core | Apache-2.0 | Public |
+
+Subdirectories without a `LICENSE` file (`aivm`, `bridgevm`, `consensus`,
+`lux-accel`, `lux-cuda`, `lux-gpu`, `lux-metal`, `lux-webgpu`,
+`luxcpp.github.io`, `metal`, `mpcvm`, `platformvm`, `webgpu`, `xvm`) are
+considered all-rights-reserved private moat until a `LICENSE` file is
+added. Contact `licensing@lux.network` for commercial use.
+
+## Related Organizations
 
 | Organization | Focus | Link |
 |--------------|-------|------|
-| **Lux C++** | C++ implementations | [github.com/luxcpp](https://github.com/luxcpp) |
-| **Lux Network** | Go implementations | [github.com/luxfi](https://github.com/luxfi) |
-| **Lux FHE** | Docs & examples | [github.com/luxfhe](https://github.com/luxfhe) |
+| **Lux C++** | C++ kernel and GPU acceleration | [github.com/luxcpp](https://github.com/luxcpp) |
+| **Lux Network** | Go reference implementation | [github.com/luxfi](https://github.com/luxfi) |
+| **Lux FHE** | FHE docs and examples | [github.com/luxfhe](https://github.com/luxfhe) |
 | **Hanzo AI** | AI infrastructure | [github.com/hanzoai](https://github.com/hanzoai) |
-
-## 📄 License
-
-Apache 2.0 - See individual repositories for details.
 
 ---
 
-**Part of the [Lux Network](https://lux.network) ecosystem**
+Part of the [Lux Network](https://lux.network) ecosystem.
