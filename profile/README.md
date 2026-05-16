@@ -102,21 +102,33 @@ std::cout << ctx->decrypt<uint64_t>(result);  // 50
 
 ## IP and Licensing
 
-`luxcpp` is the C++ kernel and GPU acceleration org. It implements a mix
-of public reference primitives, patent-protected inventions, and
-production-grade closed-source kernels that constitute the Lux performance
-moat.
+`luxcpp` is the C++ kernel and GPU acceleration org for the Lux Network.
+It is one of three tiers in the Lux IP strategy:
 
-The full Lux IP and licensing strategy lives at the canonical Lux org
-profile: [github.com/luxfi/.github/blob/main/profile/README.md](https://github.com/luxfi/.github/blob/main/profile/README.md).
-That document is the source of truth. The table below records the binding
-license declared in each `luxcpp` repository's `LICENSE` file.
+1. **Public** — `github.com/luxfi/*` (BSD-3-Clause Go reference + a few
+   inherited upstream licenses).
+2. **Patent-protected** — `github.com/luxfi/*` Eco-tier and `luxcpp/*`
+   Eco-tier subdirs (Lux Ecosystem License v1.2). Free for Authorized
+   Networks; commercial license required outside.
+3. **Private moat** — `lux-private/*` (private GitHub org) and the
+   PROPRIETARY subdirs in `luxcpp/*`. Closed source. Commercial license
+   only.
+
+**The canonical IP / licensing strategy document is the Lux org profile:
+[github.com/luxfi/.github/blob/main/profile/README.md](https://github.com/luxfi/.github/blob/main/profile/README.md).
+Read it.** That page is the source of truth for tier definitions,
+"Authorized Network", "Descending Chain", commercial-license CTAs, and
+extraction status for `lux-private/*`.
+
+The table below records the binding license declared in each `luxcpp`
+subdirectory's `LICENSE` file. The `LICENSE` file is the binding artifact;
+this table is a navigational aid.
 
 | Subdir | License | Tier |
 |--------|---------|------|
-| cevm | Apache-2.0 | Public |
+| cevm | Apache-2.0 | Public (going-forward C++ EVM kernel; replaces LGPL `luxfi/evm` over time) |
 | crypto | Lux Ecosystem v1.2 | Patent-protected |
-| cuda | Proprietary | Private moat |
+| cuda | PROPRIETARY (Lux Industries Inc.) | Private moat |
 | dex | BSD-3-Clause Ecosystem | Public |
 | evmc | Apache-2.0 | Public |
 | fhe | Lux Ecosystem v1.2 | Patent-protected |
@@ -130,8 +142,26 @@ license declared in each `luxcpp` repository's `LICENSE` file.
 Subdirectories without a `LICENSE` file (`aivm`, `bridgevm`, `consensus`,
 `lux-accel`, `lux-cuda`, `lux-gpu`, `lux-metal`, `lux-webgpu`,
 `luxcpp.github.io`, `metal`, `mpcvm`, `platformvm`, `webgpu`, `xvm`) are
-considered all-rights-reserved private moat until a `LICENSE` file is
-added. Contact `licensing@lux.network` for commercial use.
+**all-rights-reserved** until a `LICENSE` file is added. The GPU kernel
+subdirs (`lux-cuda`, `lux-gpu`, `lux-metal`, `lux-webgpu`) are slated for
+extraction into `lux-private/gpu-kernels` once that org is bootstrapped.
+Contact `licensing@lux.network` for commercial use.
+
+### What this means for you
+
+- Building a research prototype, academic paper, hobbyist tool? Free
+  under "Research Use" / personal use across all visible tiers.
+- Building a Lux Descending Chain (subnet of Lux Primary or downstream)?
+  You are an Authorized Network. Eco-tier code is free.
+- Building a sovereign L1 unrelated to Lux and want to embed `crypto`,
+  `fhe`, `lattice`, etc.? You need a commercial license —
+  `licensing@lux.network`.
+- Need the production C++/CUDA/Metal performance kernels (`cuda/*` here,
+  `lux-private/*` once extracted)? Contract via `licensing@lux.network`.
+
+There are **no planned license flips** from Eco to BSD-3 in either org —
+the Eco tier is the catalog Lux licenses commercially, and loosening it
+would erase that revenue surface.
 
 ## Related Organizations
 
